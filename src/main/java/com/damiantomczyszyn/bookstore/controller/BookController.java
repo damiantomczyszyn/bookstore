@@ -21,11 +21,12 @@ public class BookController {
     }
     @GetMapping("/books")
     public List<Book> books(){
-        return List.of(new Book(),new Book());
+        //return List.of(new Book(),new Book());
+        return bookService.readAll();
     }
 
     @PostMapping("/addbook")
-    public ResponseEntity book(@ModelAttribute Book book){
+    public ResponseEntity book(@RequestBody Book book){
         bookService.save(book);
         return ResponseEntity.created(URI.create("/books")).build();
     }

@@ -19,7 +19,7 @@ public class BookService {
     }
     public List<Book> readAll(){
         if (!bookRepository.findAll().isEmpty())
-        return bookRepository.findAll();
+        return bookRepository.findAll().stream().toList();
         return null;
     }
 }
