@@ -1,5 +1,7 @@
 package com.damiantomczyszyn.bookstore.security;
 
+import com.damiantomczyszyn.bookstore.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -16,7 +18,8 @@ import org.springframework.security.web.SecurityFilterChain;
     @EnableWebSecurity
     public class SecurityConfiguration {
 
-
+        @Autowired
+        UserService userService;
         @Bean
         public BCryptPasswordEncoder passwordEncoder() {
             return new BCryptPasswordEncoder();
