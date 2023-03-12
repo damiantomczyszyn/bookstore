@@ -1,14 +1,17 @@
 package com.damiantomczyszyn.bookstore.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class CartItems {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Long id;
 
     public void setId(Long id) {
@@ -20,9 +23,12 @@ public class CartItems {
     }
 
     @OneToOne
-    @JoinColumn(name = "book_id")
-    @RestResource(path = "libraryAddress", rel="address")
+    @JoinColumn(name = "book_id", referencedColumnName = "id")
     private Book book;
+
+    @OneToOne
+    @JoinColumn(name = "cart_item_id", referencedColumnName = "id")
+    private CartItems cartItems;
 
     //cart foreign key
     // book foreign key
