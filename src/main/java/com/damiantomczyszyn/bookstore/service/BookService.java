@@ -22,4 +22,20 @@ public class BookService {
         return bookRepository.findAll().stream().toList();
         return null;
     }
+
+    public void delete(Long id){
+        bookRepository.deleteById(id);
+    }
+
+    public void saveOrUpdate(Book books){
+        bookRepository.save(books);
+    }
+    public Book getBooksById(Long id)
+    {
+        return bookRepository.findById(id).get();
+    }
+    public void update(Book books, Long bookid)
+    {
+        bookRepository.save(books);
+    }
 }
