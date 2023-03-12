@@ -1,25 +1,63 @@
 package com.damiantomczyszyn.bookstore.security;
 
+import com.damiantomczyszyn.bookstore.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-//https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter
-@Configuration
-public class SecurityConfiguration {
+    @Configuration
+    @EnableWebSecurity
+    public class SecurityConfiguration {
 
-//    @Bean
-//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http
-//                .authorizeHttpRequests((authz) -> authz
-//                        .anyRequest().authenticated()
-//                )
-//                .httpBasic(withDefaults());
-//        return http.build();
-//    }
+        @Autowired
+        UserService userService;
+        @Bean
+        public BCryptPasswordEncoder passwordEncoder() {
+            return new BCryptPasswordEncoder();
+        }
+        @Bean
+        public InMemoryUserDetailsManager userDetailsService() {
+            UserDetails user1 = User.withUsername("user1")
+                    .password(passwordEncoder().encode("user1Pass"))
+                    .roles("USER")
+                    .build();
+            UserDetails user2 = User.withUsername("user2")
+                    .password(passwordEncoder().encode("user2Pass"))
+                    .roles("USER")
+                    .build();
+            UserDetails admin = User.withUsername("admin")
+                    .password(passwordEncoder().encode("adminPass"))
+                    .roles("ADMIN")
+                    .build();
+            return new InMemoryUserDetailsManager(user1, user2, admin);
+        }
+        @Bean
+        SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+            return httpSecurity.csrf().disable()
+                    .authorizeHttpRequests(requests -> {
+                        requests.requestMatchers("/v1/home").hasRole("ADMIN");
+                        requests.requestMatchers("/v2/home").hasRole("USER");
+                        //requests.requestMatchers("/admin/adduser").hasRole("ADMIN");
+                        //requests.anyRequest().denyAll();
+                        requests.anyRequest().permitAll();
 
+                    })
+                    .httpBasic(Customizer.withDefaults())
+                    .build();
 
-}
+        }
+        @Bean
+        public WebSecurityCustomizer webSecurityCustomizer() {
+            return (web) -> web.ignoring().requestMatchers("/images/**", "/js/**", "/webjars/**");
+        }
+
+    }
