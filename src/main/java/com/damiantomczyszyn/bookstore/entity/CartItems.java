@@ -7,7 +7,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
 
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
+
 public class CartItems {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,11 +27,16 @@ public class CartItems {
     private Book book;
 
     @OneToOne
-    @JoinColumn(name = "cart_item_id", referencedColumnName = "id")
-    private CartItems cartItems;
+    @JoinColumn(name = "cart_id", referencedColumnName = "id")
+    private Cart cart;
 
     //cart foreign key
     // book foreign key
 
 
+    public CartItems( Book book, Cart cart) {
+
+        this.book = book;
+        this.cart= cart;
+    }
 }
