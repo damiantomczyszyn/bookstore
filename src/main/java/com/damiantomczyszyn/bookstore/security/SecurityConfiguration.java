@@ -42,14 +42,18 @@ import org.springframework.security.web.SecurityFilterChain;
         }
         @Bean
         SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-            return httpSecurity
+            return httpSecurity.csrf().disable()
                     .authorizeHttpRequests(requests -> {
                         requests.requestMatchers("/v1/home").hasRole("ADMIN");
                         requests.requestMatchers("/v2/home").hasRole("USER");
-                        requests.anyRequest().denyAll();
+                        //requests.requestMatchers("/admin/adduser").hasRole("ADMIN");
+                        //requests.anyRequest().denyAll();
+                        requests.anyRequest().permitAll();
+
                     })
                     .httpBasic(Customizer.withDefaults())
                     .build();
+
         }
         @Bean
         public WebSecurityCustomizer webSecurityCustomizer() {

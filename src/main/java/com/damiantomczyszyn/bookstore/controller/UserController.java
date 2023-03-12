@@ -18,8 +18,9 @@ public class UserController {
 
 
     @GetMapping("/users")
-    public User user(@RequestParam String email){
-            return (User) userService.loadUserByUsername(email);
+    public UserDetails user(@RequestParam String email){
+
+        return  userService.loadUserByUsername(email);
     }
 
     @GetMapping("/userz")
