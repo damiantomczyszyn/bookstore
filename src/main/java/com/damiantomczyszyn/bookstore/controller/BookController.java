@@ -30,5 +30,16 @@ public class BookController {
         bookService.save(book);
         return ResponseEntity.created(URI.create("/books")).build();
     }
+    @DeleteMapping("/book/{bookid}")
+    private void deleteBook(@PathVariable("bookid") Long bookid)
+    {
+        bookService.delete(bookid);
+    }
+    @PutMapping("/books")
+    private Book update(@RequestBody Book books)
+    {
+        bookService.saveOrUpdate(books);
+        return books;
+    }
 
 }
