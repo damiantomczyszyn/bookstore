@@ -1,5 +1,6 @@
 package com.damiantomczyszyn.bookstore.security;
 
+import com.damiantomczyszyn.bookstore.service.CustomUserDetailsService;
 import com.damiantomczyszyn.bookstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -19,6 +21,10 @@ import org.springframework.security.web.SecurityFilterChain;
     @Configuration
     @EnableWebSecurity
     public class SecurityConfiguration {
+        @Bean
+        public UserDetailsService userDetailsService(){
+            return new CustomUserDetailsService();
+        }
 
         @Autowired
         UserService userService;
@@ -30,6 +36,8 @@ import org.springframework.security.web.SecurityFilterChain;
         @Autowired
         private CustomAuthenticatorProvider authProvider;
 
+
+
         @Bean
         public AuthenticationManager authManager(HttpSecurity http) throws Exception {
             AuthenticationManagerBuilder authenticationManagerBuilder =
@@ -38,7 +46,7 @@ import org.springframework.security.web.SecurityFilterChain;
             return authenticationManagerBuilder.build();
         }
 
-        @Bean
+      /*  @Bean
         public InMemoryUserDetailsManager userDetailsService() {
             UserDetails user1 = User.withUsername("user1")
                     .password(passwordEncoder().encode("user1Pass"))
@@ -52,8 +60,10 @@ import org.springframework.security.web.SecurityFilterChain;
                     .password(passwordEncoder().encode("adminPass"))
                     .roles("ADMIN")
                     .build();
+
             return new InMemoryUserDetailsManager(user1, user2, admin);
         }
+        */
         @Bean
         SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
             return httpSecurity.csrf().disable()
