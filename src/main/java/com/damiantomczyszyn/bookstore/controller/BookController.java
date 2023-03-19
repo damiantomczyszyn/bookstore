@@ -18,26 +18,17 @@ import java.util.List;
 public class BookController {
     @Autowired
     private BookService bookService;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private CartItemService cartItemService;
 
     @Autowired
     private CartService cartService;
 
 
     @PutMapping("/{cartId}/students/{bookId}")
-    CartItems addBookToCart(
+    ResponseEntity addBookToCart(
             @PathVariable Long booktId,
             @PathVariable Long carttId
     ) {
-        var cart = cartService.addBooktoCart(carttId);
-        var book = bookService.getBooksById(booktId);
-        CartItems cartItem= new CartItems(book,cart);
-        return cartItemService.save(cartItem);
-
-
+        return cartService.addBooktoCart(booktId,carttId);
     }
 
 

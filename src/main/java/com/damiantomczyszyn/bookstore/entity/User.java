@@ -30,6 +30,7 @@ public class User{
 
     boolean isAdmin;
 
+
     public User(Long id, String email, String password, boolean isAdmin) {
         this.id = id;
         this.email = email;
