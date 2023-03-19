@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 import com.damiantomczyszyn.bookstore.entity.User;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -28,5 +30,9 @@ public class UserService implements UserDetailsService {
 
     public void save(User user) {
         userRepository.save(user);
+    }
+    public Object getLoggedUser(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return auth.getDetails();
     }
 }
