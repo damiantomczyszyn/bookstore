@@ -67,12 +67,16 @@ import org.springframework.security.web.SecurityFilterChain;
         @Bean
         SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
             return httpSecurity.csrf().disable()
+                   // .authorizeHttpRequests().anyRequest().permitAll()
 
 
                     .authorizeHttpRequests()
                     .requestMatchers("/v1/addbook").permitAll()
                     .and()
 
+                    .authorizeHttpRequests()
+                    .requestMatchers("/admin/adduser").permitAll()
+                    .and()
 
                     //.authorizeHttpRequests().anyRequest().permitAll()
 
@@ -80,6 +84,8 @@ import org.springframework.security.web.SecurityFilterChain;
                     .requestMatchers("/v1/books").authenticated()
 
                     .and().formLogin()
+
+
                     .and()
                    // .httpBasic(Customizer.withDefaults())//dodanie tego sprawia ze dziala
                     .build();

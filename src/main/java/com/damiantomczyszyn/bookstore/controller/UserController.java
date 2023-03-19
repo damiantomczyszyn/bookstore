@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/admin")
@@ -17,10 +18,16 @@ public class UserController {
     private UserService userService;
 
 
-    @GetMapping("/users")
+    @GetMapping("/user")
     public UserDetails user(@RequestParam String email){
 
         return  userService.loadUserByUsername(email);
+    }
+
+    @GetMapping("/users")
+    public List<User> users(){
+
+        return userService.readAll();
     }
 
     @GetMapping("/userz")

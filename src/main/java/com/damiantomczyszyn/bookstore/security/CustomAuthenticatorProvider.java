@@ -1,7 +1,6 @@
 package com.damiantomczyszyn.bookstore.security;
 
 import com.damiantomczyszyn.bookstore.repository.UserRepository;
-import com.damiantomczyszyn.bookstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,14 +22,10 @@ public class CustomAuthenticatorProvider implements AuthenticationProvider {
 
         String name = authentication.getName();
         String password = authentication.getCredentials().toString();
+        if (shouldAuthenticateAgainstThirdPartySystem(name, password)) {
 
-        if (shouldAuthenticateAgainstThirdPartySystem()) {
-            /*
-            var userOptional = repository.findByEmail(name);
-            if( userOptional.isPresent()){
-                userOptional.get().
-            }
-            */
+
+
             // use the credentials
             // and authenticate against the third-party system
             return new UsernamePasswordAuthenticationToken(
@@ -40,8 +35,16 @@ public class CustomAuthenticatorProvider implements AuthenticationProvider {
         }
     }
 
-    private boolean shouldAuthenticateAgainstThirdPartySystem() {
-        return  true;
+    private boolean shouldAuthenticateAgainstThirdPartySystem(String name, String password) {
+        var userOptional = repository.findByEmail(name);
+
+        if(userOptional.isPresent()){
+            if(userOptional.get().getPassword().equals(password)){
+
+                return true;
+            }
+        }
+        return false;
     }
 
 
