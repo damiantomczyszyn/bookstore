@@ -1,5 +1,6 @@
 package com.damiantomczyszyn.bookstore.entity;
 
+import com.damiantomczyszyn.bookstore.security.Role;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,13 +29,28 @@ public class User{
     private String email;
     private String password;
 
-    boolean isAdmin;
+    public String getEmail() {
+        return email;
+    }
 
+    public String getPassword() {
+        return password;
+    }
 
-    public User(Long id, String email, String password, boolean isAdmin) {
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    private Role role;
+
+    public User(Long id, String email, String password, Role role) {
         this.id = id;
         this.email = email;
         this.password = password;
-        this.isAdmin = isAdmin;
+        this.role = role;
     }
 }

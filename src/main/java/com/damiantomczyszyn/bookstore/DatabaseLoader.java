@@ -7,6 +7,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.List;
+
 @Configuration
 public class DatabaseLoader {
     @Autowired
@@ -20,6 +22,9 @@ public class DatabaseLoader {
             User user1 = new User();
             User user2 = new User();
             User user3 = new User();
+
+            repo.saveAll(List.of(user1,user2,user3));
+            System.out.println("sample users initialized");
         };
     }
 }
