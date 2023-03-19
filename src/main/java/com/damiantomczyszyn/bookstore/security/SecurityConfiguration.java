@@ -4,7 +4,9 @@ import com.damiantomczyszyn.bookstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -24,6 +26,18 @@ import org.springframework.security.web.SecurityFilterChain;
         public BCryptPasswordEncoder passwordEncoder() {
             return new BCryptPasswordEncoder();
         }
+
+        @Autowired
+        private CustomAuthenticatorProvider authProvider;
+
+        @Bean
+        public AuthenticationManager authManager(HttpSecurity http) throws Exception {
+            AuthenticationManagerBuilder authenticationManagerBuilder =
+                    http.getSharedObject(AuthenticationManagerBuilder.class);
+            authenticationManagerBuilder.authenticationProvider(authProvider);
+            return authenticationManagerBuilder.build();
+        }
+
         @Bean
         public InMemoryUserDetailsManager userDetailsService() {
             UserDetails user1 = User.withUsername("user1")
@@ -43,18 +57,26 @@ import org.springframework.security.web.SecurityFilterChain;
         @Bean
         SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
             return httpSecurity.csrf().disable()
+
+
                     .authorizeHttpRequests()
-                    .requestMatchers("/v1/books").permitAll()
+                    .requestMatchers("/v1/addbook").permitAll()
                     .and()
 
-                    .authorizeHttpRequests().anyRequest().permitAll()
 
-                    //.authorizeHttpRequests().requestMatchers("/v2/**").authenticated()
-                    //.and().formLogin()
-                    .and().build();
+                    //.authorizeHttpRequests().anyRequest().permitAll()
+
+                    .authorizeHttpRequests()
+                    .requestMatchers("/v1/books").authenticated()
+
+                    .and().formLogin()
+                    .and()
+                   // .httpBasic(Customizer.withDefaults())//dodanie tego sprawia ze dziala
+                    .build();
 
 
         }
+
 
         @Bean
         public WebSecurityCustomizer webSecurityCustomizer() {
