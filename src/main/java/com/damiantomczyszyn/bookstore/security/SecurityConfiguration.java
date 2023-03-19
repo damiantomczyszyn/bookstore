@@ -43,18 +43,19 @@ import org.springframework.security.web.SecurityFilterChain;
         @Bean
         SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
             return httpSecurity.csrf().disable()
-                    .authorizeHttpRequests(requests -> {
-                        requests.requestMatchers("/v1/home").hasRole("ADMIN");
-                        requests.requestMatchers("/v2/home").hasRole("USER");
-                        //requests.requestMatchers("/admin/adduser").hasRole("ADMIN");
-                        //requests.anyRequest().denyAll();
-                        requests.anyRequest().permitAll();
+                    .authorizeHttpRequests()
+                    .requestMatchers("/v1/books").permitAll()
+                    .and()
 
-                    })
-                    .httpBasic(Customizer.withDefaults())
-                    .build();
+                    .authorizeHttpRequests().anyRequest().permitAll()
+
+                    //.authorizeHttpRequests().requestMatchers("/v2/**").authenticated()
+                    //.and().formLogin()
+                    .and().build();
+
 
         }
+
         @Bean
         public WebSecurityCustomizer webSecurityCustomizer() {
             return (web) -> web.ignoring().requestMatchers("/images/**", "/js/**", "/webjars/**");
