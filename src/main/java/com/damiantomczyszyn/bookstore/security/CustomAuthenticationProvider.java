@@ -44,16 +44,19 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     private boolean shouldAuthenticateAgainstThirdPartySystem(String name, String password) {
 
-        //wyswietle całą kolekcje
+
 
         var userOptional = repository.findByEmail(name);
 
+
         if(userOptional.isPresent()){
+            System.out.println("jest taki user");
             if(userOptional.get().getPassword().equals(password)){
 
                 return true;
             }
         }
+        System.out.println("nie jest taki user");
         return false;
     }
 
