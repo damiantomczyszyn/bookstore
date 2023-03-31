@@ -34,7 +34,7 @@ import org.springframework.security.web.SecurityFilterChain;
         }
 
         @Autowired
-        private CustomAuthenticatorProvider authProvider;
+        private CustomAuthenticationProvider authProvider;
 
 
 
