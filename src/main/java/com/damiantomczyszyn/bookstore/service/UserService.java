@@ -1,6 +1,7 @@
 package com.damiantomczyszyn.bookstore.service;
 
 
+import com.damiantomczyszyn.bookstore.entity.Book;
 import com.damiantomczyszyn.bookstore.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -14,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -28,10 +30,15 @@ public class UserService implements UserDetailsService {
 
     }
 
+    public List<User> readAll(){
+        if (!userRepository.findAll().isEmpty())
+            return userRepository.findAll().stream().toList();
+        return null;
+    }
+
     public void save(User user) {
         userRepository.save(user);
     }
-
     public Object getLoggedUser(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return auth.getDetails();
