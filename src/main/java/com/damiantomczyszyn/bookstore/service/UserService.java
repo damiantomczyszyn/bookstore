@@ -43,4 +43,8 @@ public class UserService implements UserDetailsService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return auth.getDetails();
     }
+
+    public void saveOrUpdate(User user) {
+        userRepository.save(user);
+    }
 }

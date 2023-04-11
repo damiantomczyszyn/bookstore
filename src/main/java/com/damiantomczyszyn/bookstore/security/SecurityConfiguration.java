@@ -83,6 +83,10 @@ import org.springframework.security.web.SecurityFilterChain;
                     .and()
 
                     .authorizeHttpRequests()
+                    .requestMatchers("/v1/updateuser").permitAll()
+                    .and()
+
+                    .authorizeHttpRequests()
                     .requestMatchers("/v1/*").permitAll()
                     .and()
 

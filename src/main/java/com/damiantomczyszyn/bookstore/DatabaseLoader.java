@@ -1,5 +1,6 @@
 package com.damiantomczyszyn.bookstore;
 
+import com.damiantomczyszyn.bookstore.entity.Cart;
 import com.damiantomczyszyn.bookstore.entity.User;
 import com.damiantomczyszyn.bookstore.repository.UserRepository;
 import com.damiantomczyszyn.bookstore.security.Role;
