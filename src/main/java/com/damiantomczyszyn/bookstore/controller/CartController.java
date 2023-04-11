@@ -29,4 +29,11 @@ public class CartController {
         return ResponseEntity.created(URI.create("/carts")).build();
     }
 
+    @PutMapping("/updatecart")
+    private Cart update(@RequestBody Cart cart)
+    {
+        cartService.saveOrUpdate(cart);
+        return cart;
+    }
+
 }

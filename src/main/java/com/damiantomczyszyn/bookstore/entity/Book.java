@@ -1,9 +1,8 @@
 package com.damiantomczyszyn.bookstore.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class Book {
@@ -58,6 +57,9 @@ public class Book {
         this.author = author;
         this.publishDate = publishDate;
     }
+    @ManyToOne
+    @JoinColumn(name= "cart_id",referencedColumnName="id")
+    private Cart cart;
 
     public void setId(Long id) {
         this.id = id;

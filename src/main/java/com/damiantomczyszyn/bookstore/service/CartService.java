@@ -25,4 +25,7 @@ public class CartService {
         return null;
     }
 
+    public void saveOrUpdate(Cart cart) {
+        cartRepository.save(cart);
+    }
 }

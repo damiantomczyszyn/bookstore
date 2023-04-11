@@ -83,7 +83,11 @@ import org.springframework.security.web.SecurityFilterChain;
                     .and()
 
                     .authorizeHttpRequests()
-                    .requestMatchers("/admin/adduser").permitAll()
+                    .requestMatchers("/v1/*").permitAll()
+                    .and()
+
+                    .authorizeHttpRequests()
+                    .requestMatchers("/admin/*").permitAll()
                     .and()
 
                     //.authorizeHttpRequests().anyRequest().permitAll()
