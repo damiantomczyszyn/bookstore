@@ -75,6 +75,14 @@ import org.springframework.security.web.SecurityFilterChain;
                     .and()
 
                     .authorizeHttpRequests()
+                    .requestMatchers("/v1/carts").permitAll()
+                    .and()
+
+                    .authorizeHttpRequests()
+                    .requestMatchers("/v1/addcart").permitAll()
+                    .and()
+
+                    .authorizeHttpRequests()
                     .requestMatchers("/admin/adduser").permitAll()
                     .and()
 
