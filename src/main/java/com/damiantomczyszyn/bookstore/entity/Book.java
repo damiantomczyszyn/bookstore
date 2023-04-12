@@ -58,30 +58,15 @@ public class Book {
         this.publishDate = publishDate;
     }
 
-    public Book(Long id, String name, String price, String author, String publishDate, Cart cart) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.author = author;
-        this.publishDate = publishDate;
-        this.cart = cart;
-    }
 
-    @ManyToOne
-    @JoinColumn(name= "cart_id",referencedColumnName="id")
-    private Cart cart;
+
+
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public Cart getCart() {
-        return cart;
-    }
 
-    public void setCart(Cart cart) {
-        this.cart = cart;
-    }
 
     public Long getId() {
         return id;

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import org.springframework.security.core.userdetails.UserDetails;
 import com.damiantomczyszyn.bookstore.entity.User;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,28 +28,30 @@ public class Cart {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @OneToMany(mappedBy = "cart")
-    private List<Book> books;
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CartItem> cartItems = new ArrayList<>();
 
     public Cart(Long id) {
         this.id = id;
     }
 
+
     public Cart() {
     }
 
-    public List<Book> getBooks() {
-        return books;
-    }
-
-    public void setBooks(List<Book> books) {
-        this.books = books;
-    }
-
-    public Cart(Long id, User user, List<Book> books) {
+    public Cart(Long id, User user, List<CartItem> cartItems) {
         this.id = id;
         this.user = user;
-        this.books = books;
+        this.cartItems = cartItems;
+    }
+
+
+    public List<CartItem> getCartItems() {
+        return cartItems;
+    }
+
+    public void setCartItems(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
     }
 
     public User getUser() {
@@ -57,5 +60,11 @@ public class Cart {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+
+
+    public void  addItem(CartItem item){
+        this.cartItems.add(item);
     }
 }
