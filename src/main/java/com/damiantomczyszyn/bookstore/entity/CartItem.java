@@ -68,7 +68,13 @@ public class CartItem {
     @ManyToOne
     Cart cart;
 
-    public CartItem(Long id,Book book, int quantity, BigDecimal price,  Cart cart) {
+    public CartItem(Book book, int quantity, BigDecimal price) {
+        this.book = book;
+        this.quantity = quantity;
+        this.price = price;
+    }
+
+    public CartItem(Long id, Book book, int quantity, BigDecimal price, Cart cart) {
         this.book = book;
         this.quantity = quantity;
         this.price = price;

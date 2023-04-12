@@ -20,7 +20,7 @@ import java.util.List;
 @Service
 public class UserService implements UserDetailsService {
     @Autowired
-    private UserRepository userRepository;
+    public UserRepository userRepository;
 
 
     @Override
