@@ -1,6 +1,7 @@
 package com.damiantomczyszyn.bookstore.controller;
 
 
+import com.damiantomczyszyn.bookstore.entity.Book;
 import com.damiantomczyszyn.bookstore.entity.User;
 import com.damiantomczyszyn.bookstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,12 @@ public class UserController {
         return ResponseEntity.created(URI.create("/user")).build();
     }
 
+    @PutMapping("/updateuser")
+    private User update(@RequestBody User user)
+    {
+        userService.saveOrUpdate(user);
+        return user;
+    }
 
 
 }

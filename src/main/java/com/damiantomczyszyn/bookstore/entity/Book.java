@@ -1,9 +1,8 @@
 package com.damiantomczyszyn.bookstore.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class Book {
@@ -59,9 +58,15 @@ public class Book {
         this.publishDate = publishDate;
     }
 
+
+
+
+
     public void setId(Long id) {
         this.id = id;
     }
+
+
 
     public Long getId() {
         return id;

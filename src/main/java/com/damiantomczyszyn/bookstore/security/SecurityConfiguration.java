@@ -75,7 +75,28 @@ import org.springframework.security.web.SecurityFilterChain;
                     .and()
 
                     .authorizeHttpRequests()
-                    .requestMatchers("/admin/adduser").permitAll()
+                    .requestMatchers("/v1/carts").permitAll()
+                    .and()
+
+                    .authorizeHttpRequests()
+                    .requestMatchers("/v1/additem/{bookId}").permitAll()
+                    .and()
+
+
+                    .authorizeHttpRequests()
+                    .requestMatchers("/v1/addcart").permitAll()
+                    .and()
+
+                    .authorizeHttpRequests()
+                    .requestMatchers("/v1/updateuser").permitAll()
+                    .and()
+
+                    .authorizeHttpRequests()
+                    .requestMatchers("/v1/*").permitAll()
+                    .and()
+
+                    .authorizeHttpRequests()
+                    .requestMatchers("/admin/*").permitAll()
                     .and()
 
                     //.authorizeHttpRequests().anyRequest().permitAll()

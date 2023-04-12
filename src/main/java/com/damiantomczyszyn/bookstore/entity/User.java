@@ -1,10 +1,7 @@
 package com.damiantomczyszyn.bookstore.entity;
 
 import com.damiantomczyszyn.bookstore.security.Role;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Generated;
@@ -53,12 +50,31 @@ public class User{
         this.role = role;
     }
 
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
+
     private Role role;
+    @OneToOne(mappedBy = "user")
+    private Cart cart;
 
     public User(Long id, String email, String password, Role role) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.role = role;
+
+    }
+
+    public User(Long id, String email, String password, Role role, Cart cart) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.cart = cart;
     }
 }

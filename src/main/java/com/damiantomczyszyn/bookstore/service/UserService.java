@@ -20,7 +20,7 @@ import java.util.List;
 @Service
 public class UserService implements UserDetailsService {
     @Autowired
-    private UserRepository userRepository;
+    public UserRepository userRepository;
 
 
     @Override
@@ -42,5 +42,9 @@ public class UserService implements UserDetailsService {
     public Object getLoggedUser(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return auth.getDetails();
+    }
+
+    public void saveOrUpdate(User user) {
+        userRepository.save(user);
     }
 }
