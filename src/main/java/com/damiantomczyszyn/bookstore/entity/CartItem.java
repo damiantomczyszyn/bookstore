@@ -1,18 +1,15 @@
 package com.damiantomczyszyn.bookstore.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
+
 public class CartItem {
-    public CartItem(Book book, int counter, BigDecimal price, Long id) {
-        this.book = book;
-        this.counter = counter;
-        this.price = price;
-        this.id = id;
-    }
+
 
     public CartItem() {
     }
@@ -25,13 +22,7 @@ public class CartItem {
         this.book = book;
     }
 
-    public int getCounter() {
-        return counter;
-    }
 
-    public void setCounter(int counter) {
-        this.counter = counter;
-    }
 
     public BigDecimal getPrice() {
         return price;
@@ -41,10 +32,26 @@ public class CartItem {
         this.price = price;
     }
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "book_id", referencedColumnName = "id")
     private Book book;
 
-    private  int counter;
+    private  int quantity;
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public CartItem(Book book, int quantity, BigDecimal price, Long id) {
+        this.book = book;
+        this.quantity = quantity;
+        this.price = price;
+        this.id = id;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 
     private BigDecimal price;
     @Id
@@ -58,4 +65,6 @@ public class CartItem {
     public Long getId() {
         return id;
     }
+    @ManyToOne
+    Cart cart;
 }
