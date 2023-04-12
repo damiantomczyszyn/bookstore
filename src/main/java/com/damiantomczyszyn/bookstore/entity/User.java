@@ -67,8 +67,7 @@ public class User{
         this.email = email;
         this.password = password;
         this.role = role;
-        //this.cart = new Cart();
-        //cart.setUser(this);
+
     }
 
     public User(Long id, String email, String password, Role role, Cart cart) {
