@@ -30,6 +30,10 @@ public class DatabaseLoader {
             for (User u: users) {
                 System.out.println(u.toString());
             }
+            // TODO: 4/12/2023  dodaj inne encje do bazy danych
+
+
+
         };
 
 
