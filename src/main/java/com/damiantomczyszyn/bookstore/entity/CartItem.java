@@ -42,7 +42,7 @@ public class CartItem {
         return quantity;
     }
 
-    public CartItem(Book book, int quantity, BigDecimal price, Long id) {
+    public CartItem(Long id, Book book, int quantity, BigDecimal price) {
         this.book = book;
         this.quantity = quantity;
         this.price = price;
@@ -67,4 +67,12 @@ public class CartItem {
     }
     @ManyToOne
     Cart cart;
+
+    public CartItem(Long id,Book book, int quantity, BigDecimal price,  Cart cart) {
+        this.book = book;
+        this.quantity = quantity;
+        this.price = price;
+        this.id = id;
+        this.cart = cart;
+    }
 }

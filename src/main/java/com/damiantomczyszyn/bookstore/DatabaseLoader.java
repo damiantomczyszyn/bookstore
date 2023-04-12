@@ -5,6 +5,7 @@ import com.damiantomczyszyn.bookstore.entity.Cart;
 import com.damiantomczyszyn.bookstore.entity.CartItem;
 import com.damiantomczyszyn.bookstore.entity.User;
 import com.damiantomczyszyn.bookstore.repository.BookRepository;
+import com.damiantomczyszyn.bookstore.repository.CartItemRepository;
 import com.damiantomczyszyn.bookstore.repository.CartRepository;
 import com.damiantomczyszyn.bookstore.repository.UserRepository;
 import com.damiantomczyszyn.bookstore.security.Role;
@@ -12,6 +13,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 @Configuration
@@ -19,12 +21,13 @@ public class DatabaseLoader {
     private UserRepository repo;
     private BookRepository bookRepository;
     private CartRepository cartRepository;
+    private CartItemRepository cartItemRepository;
 
-    public  DatabaseLoader(UserRepository repo, BookRepository bookRepository,CartRepository cartRepository){
+    public  DatabaseLoader(UserRepository repo, BookRepository bookRepository, CartRepository cartRepository, CartItemRepository cartItemRepository){
         this.repo=repo;
         this.bookRepository=bookRepository;
         this.cartRepository=cartRepository;
-
+        this.cartItemRepository=cartItemRepository;
     }
     @Bean
     public CommandLineRunner initializeDatabase() {
@@ -62,6 +65,10 @@ public class DatabaseLoader {
             for (Book b : books) {
                 System.out.println(b.toString());
             }
+
+            CartItem item1 = new CartItem(1L,book1,2, new BigDecimal(80),cart1);
+            cartItemRepository.save(item1);
+
 
         };
 

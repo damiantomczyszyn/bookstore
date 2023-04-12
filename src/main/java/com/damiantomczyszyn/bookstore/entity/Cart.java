@@ -35,6 +35,7 @@ public class Cart {
         this.id = id;
     }
 
+
     public Cart() {
     }
 
@@ -59,5 +60,11 @@ public class Cart {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+
+
+    public void  addItem(CartItem item){
+        this.cartItems.add(item);
     }
 }
