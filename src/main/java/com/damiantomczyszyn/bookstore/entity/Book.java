@@ -58,29 +58,29 @@ public class Book {
         this.publishDate = publishDate;
     }
 
-    public Book(Long id, String name, String price, String author, String publishDate, Cart cart) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.author = author;
-        this.publishDate = publishDate;
-        this.cart = cart;
+    public CartItem getCartItem() {
+        return cartItem;
+    }
+
+    public void setCartItem(CartItem cartItem) {
+        this.cartItem = cartItem;
     }
 
     @ManyToOne
-    @JoinColumn(name= "cart_id",referencedColumnName="id")
-    private Cart cart;
+    @JoinColumn(name= "cartitem_id",referencedColumnName="id")
+    private CartItem cartItem;
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public Cart getCart() {
-        return cart;
-    }
-
-    public void setCart(Cart cart) {
-        this.cart = cart;
+    public Book(Long id, String name, String price, String author, String publishDate, CartItem cartItem) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.author = author;
+        this.publishDate = publishDate;
+        this.cartItem = cartItem;
     }
 
     public Long getId() {

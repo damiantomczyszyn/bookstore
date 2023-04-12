@@ -28,7 +28,7 @@ public class Cart {
     private User user;
 
     @OneToMany(mappedBy = "cart")
-    private List<Book> books;
+    private List<CartItem> cartItems;
 
     public Cart(Long id) {
         this.id = id;
@@ -37,18 +37,18 @@ public class Cart {
     public Cart() {
     }
 
-    public List<Book> getBooks() {
-        return books;
-    }
-
-    public void setBooks(List<Book> books) {
-        this.books = books;
-    }
-
-    public Cart(Long id, User user, List<Book> books) {
+    public Cart(Long id, User user, List<CartItem> cartItems) {
         this.id = id;
         this.user = user;
-        this.books = books;
+        this.cartItems = cartItems;
+    }
+
+    public List<CartItem> getCartItems() {
+        return cartItems;
+    }
+
+    public void setCartItems(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
     }
 
     public User getUser() {
