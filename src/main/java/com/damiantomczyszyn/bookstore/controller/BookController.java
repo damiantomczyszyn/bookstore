@@ -5,6 +5,7 @@ import com.damiantomczyszyn.bookstore.entity.Book;
 import com.damiantomczyszyn.bookstore.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -25,7 +26,10 @@ public class BookController {
     public String home(){
         return "home";
     }
+
+
     @GetMapping("/books")
+    @PreAuthorize("permitAll()")
     public List<Book> books(){
         //return List.of(new Book(),new Book());
         return bookService.readAll();

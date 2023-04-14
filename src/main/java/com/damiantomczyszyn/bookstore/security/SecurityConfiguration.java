@@ -67,42 +67,13 @@ import org.springframework.security.web.SecurityFilterChain;
         @Bean
         SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
             return httpSecurity.csrf().disable()
-                   // .authorizeHttpRequests().anyRequest().permitAll()
 
 
                     .authorizeHttpRequests()
-                    .requestMatchers("/v1/addbook").permitAll()
+                    .requestMatchers("/v1/addbook", "/v1/book/**").hasRole("ADMIN")
+                    .anyRequest().permitAll()//.authenticated()
                     .and()
-
-                    .authorizeHttpRequests()
-                    .requestMatchers("/v1/carts").permitAll()
-                    .and()
-
-                    .authorizeHttpRequests()
-                    .requestMatchers("/v1/additem/{bookId}").permitAll()
-                    .and()
-
-
-                    .authorizeHttpRequests()
-                    .requestMatchers("/v1/addcart").permitAll()
-                    .and()
-
-                    .authorizeHttpRequests()
-                    .requestMatchers("/v1/updateuser").permitAll()
-                    .and()
-
-                    .authorizeHttpRequests()
-                    .requestMatchers("/v1/*").permitAll()
-                    .and()
-
-                    .authorizeHttpRequests()
-                    .requestMatchers("/admin/*").permitAll()
-                    .and()
-
-                    //.authorizeHttpRequests().anyRequest().permitAll()
-
-                    .authorizeHttpRequests()
-                    .requestMatchers("/v1/books").authenticated()
+                    .httpBasic()
 
                     .and().formLogin()
 

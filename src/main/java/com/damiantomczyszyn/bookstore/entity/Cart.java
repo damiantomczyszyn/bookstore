@@ -24,6 +24,9 @@ public class Cart {
         return id;
     }
 
+
+
+
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
