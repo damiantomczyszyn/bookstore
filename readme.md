@@ -15,3 +15,5 @@ Book
 - [ ] Bootstrap 
 - [ ] Full CRUD
 - [ ] Shopping Cart
+- [ ] HATEOAS
+- [ ] Swagger

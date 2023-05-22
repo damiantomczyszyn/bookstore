@@ -1,0 +1,47 @@
+name: Deploy to AWS
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+  SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+  SSH_USERNAME: ubuntu
+  AWS_EC2_INSTANCE: ec2-3-129-14-250.us-east-2.compute.amazonaws.com
+  AWS_REGION: us-east-1
+  AWS_SSH_KEY: ${{ secrets.AWS_SSH_KEY }}
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: 17
+
+      - name: Build with Maven
+        run: mvn clean package
+
+      - name: Deploy to AWS EC2
+        uses: easingthemes/ssh-deploy@v2.2.13
+        with:
+          ssh-private-key: ${{ env.SSH_PRIVATE_KEY }}
+          known-hosts: ${{ env.SSH_KNOWN_HOSTS }}
+          host: ${{ env.AWS_EC2_INSTANCE }}
+          port: 22
+          username: ${{ env.SSH_USERNAME }}
+          local: "target/myapp.jar"
+          remote: "/home/ubuntu/myapp.jar"
+          before-deploy: "sudo systemctl stop myapp.service"
+          after-deploy: "sudo systemctl start myapp.service"
+
+      - name: Remove SSH key
+        run: |
+          rm -f $HOME/.ssh/id_rsa
+          rm -f $HOME/.ssh/id_rsa.pub
