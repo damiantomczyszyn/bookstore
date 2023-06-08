@@ -32,16 +32,11 @@ public class DatabaseLoader {
     @Bean
     public CommandLineRunner initializeDatabase() {
         return args -> {
-            System.out.println("wypisanie");
-
-            User user1 = new User(1L,"user@codejava.com", "pass", Role.USER,new Cart());
-            User user2 = new User(2L,"admin@codejava.com", "pass", Role.ADMIN,new Cart());
-            User user3 = new User(3L,"user@codeinjava.com", "passwd", Role.USER,new Cart());
-
-
-
+            User user1 = new User(1L,"user@codejava.com", "pass", Role.USER);
+            User user2 = new User(2L,"admin@codejava.com", "pass", Role.ADMIN);
+            User user3 = new User(3L,"user@codeinjava.com", "passwd", Role.USER);
             System.out.println("zapisywanie usera i admina");
-        repo.saveAll(List.of(user1,user2,user3));
+            repo.saveAll(List.of(user1,user2,user3));
             System.out.println("Odczyt usera i admina:");
             List<User> users = repo.findAll();
             for (User u: users) {

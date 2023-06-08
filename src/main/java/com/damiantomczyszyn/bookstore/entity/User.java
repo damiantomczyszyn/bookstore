@@ -22,4 +22,10 @@ public class User{
     private Cart cart;
 
 
+    public User(Long id, String email, String password, Role role) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
 }
