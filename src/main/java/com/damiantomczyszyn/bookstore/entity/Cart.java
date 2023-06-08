@@ -2,6 +2,9 @@ package com.damiantomczyszyn.bookstore.entity;
 
 import jakarta.persistence.*;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import com.damiantomczyszyn.bookstore.entity.User;
 
@@ -10,6 +13,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Cart {
     @Id
@@ -30,37 +36,6 @@ public class Cart {
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartItem> cartItems = new ArrayList<>();
-
-    public Cart(Long id) {
-        this.id = id;
-    }
-
-
-    public Cart() {
-    }
-
-    public Cart(Long id, User user, List<CartItem> cartItems) {
-        this.id = id;
-        this.user = user;
-        this.cartItems = cartItems;
-    }
-
-
-    public List<CartItem> getCartItems() {
-        return cartItems;
-    }
-
-    public void setCartItems(List<CartItem> cartItems) {
-        this.cartItems = cartItems;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
 
 
