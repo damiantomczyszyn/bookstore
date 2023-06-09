@@ -22,7 +22,7 @@ public class CartService {
 
             return cartRepository.findAll().stream().toList();
         }
-
+        System.out.println("puste lub nie działa");
         return null;
     }
 

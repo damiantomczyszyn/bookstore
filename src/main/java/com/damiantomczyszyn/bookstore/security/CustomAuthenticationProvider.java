@@ -48,7 +48,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
         var userOptional = repository.findByEmail(name);
 
-
         if(userOptional.isPresent()){
             System.out.println("jest taki user");
             if(userOptional.get().getPassword().equals(password)){

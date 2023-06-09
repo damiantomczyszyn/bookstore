@@ -43,16 +43,21 @@ public class DatabaseLoader {
                 System.out.println(u.toString());
             }
 
-
+            System.out.println("zapisanie karty dla usera 1");
             Cart cart1 = new Cart(1L,user1,new ArrayList<CartItem>());
             cartRepository.save(cart1);
-            //System.out.println(user1.getCart());//null
+
+            System.out.println("zapisanie pustej karty");
+            Cart cart2 = new Cart(1L,null,new ArrayList<CartItem>());
+            cartRepository.save(cart2);
+
+
+            System.out.println("ustawienie userowi 1 karty");
             user1.setCart(cart1);
             repo.save(user1);
-            //System.out.println(user1.getCart()); //ustawiony obiekt
 
 
-
+            System.out.println("zapisanie książek");
             Book book1 = new Book(1L,"Hary Potter","40","J.K Rownling","10-10-2000");
             Book book2 = new Book(2L,"Pinokio","20","Gepetto","10-01-1859");
             Book book3 = new Book(3L,"Wieloryb bundy","35","Krokodyl","10-12-2005");
@@ -61,9 +66,11 @@ public class DatabaseLoader {
             for (Book b : books) {
                 System.out.println(b.toString());
             }
-
+            System.out.println("dodanie do karty1 książki");
             CartItem item1 = new CartItem(1L,book1,2, new BigDecimal(80),cart1);
             cartItemRepository.save(item1);
+            cart1.addItem(item1);
+            cartRepository.save(cart1);
 
 
         };

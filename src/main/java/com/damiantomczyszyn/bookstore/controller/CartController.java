@@ -19,9 +19,9 @@ public class CartController {
 
 
     @GetMapping("/carts")
-    public List<Cart> carts(){
+    public ResponseEntity<List<Cart>> carts(){
         //return List.of(new Cart(),new Cart());
-        return cartService.readAll();
+        return ResponseEntity.ok(cartService.readAll());
     }
     @PostMapping("/addcart")
     public ResponseEntity cart(@RequestBody Cart cart){
