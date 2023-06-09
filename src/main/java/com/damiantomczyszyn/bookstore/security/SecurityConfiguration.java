@@ -1,86 +1,93 @@
 package com.damiantomczyszyn.bookstore.security;
 
-import lombok.RequiredArgsConstructor;
+import com.damiantomczyszyn.bookstore.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.context.SecurityContextHolder;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.LogoutHandler;
 
-
-
-
-@EnableWebSecurity
 @Configuration
-@RequiredArgsConstructor
-@EnableMethodSecurity
+@EnableWebSecurity
 public class SecurityConfiguration {
 
-    private final JwtAuthenticationFilter jwtAuthFilter;
-    private final AuthenticationProvider authenticationProvider;
-    private final LogoutHandler logoutHandler;
+    @Autowired
+    UserService userService;
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Autowired
+    private CustomAuthenticationProvider authProvider;
+
+
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf()
-                .disable()
-                .authorizeHttpRequests()
-                .requestMatchers(
-                        "/api/v1/auth/**",
-                        "/v2/api-docs",
-                        "/v3/api-docs",
-                        "/v3/api-docs/**",
-                        "/swagger-resources",
-                        "/swagger-resources/**",
-                        "/configuration/ui",
-                        "/configuration/security",
-                        "/swagger-ui/**",
-                        "/webjars/**",
-                        "/swagger-ui.html",
-                        "*/**"
-                )
-                .permitAll()
-
-
-/*
-                .requestMatchers("/api/v1/management/**").hasAnyRole(ADMIN.name(), MANAGER.name())
-
-
-                .requestMatchers(GET, "/api/v1/management/**").hasAnyAuthority(ADMIN_READ.name(), MANAGER_READ.name())
-                .requestMatchers(POST, "/api/v1/management/**").hasAnyAuthority(ADMIN_CREATE.name(), MANAGER_CREATE.name())
-                .requestMatchers(PUT, "/api/v1/management/**").hasAnyAuthority(ADMIN_UPDATE.name(), MANAGER_UPDATE.name())
-                .requestMatchers(DELETE, "/api/v1/management/**").hasAnyAuthority(ADMIN_DELETE.name(), MANAGER_DELETE.name())
-
-*/
-
-                /* .requestMatchers("/api/v1/admin/**").hasRole(ADMIN.name())
-
-                 .requestMatchers(GET, "/api/v1/admin/**").hasAuthority(ADMIN_READ.name())
-                 .requestMatchers(POST, "/api/v1/admin/**").hasAuthority(ADMIN_CREATE.name())
-                 .requestMatchers(PUT, "/api/v1/admin/**").hasAuthority(ADMIN_UPDATE.name())
-                 .requestMatchers(DELETE, "/api/v1/admin/**").hasAuthority(ADMIN_DELETE.name())*/
-
-
-                .anyRequest()
-                .authenticated()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .logout()
-                .logoutUrl("/api/v1/auth/logout")
-                .addLogoutHandler(logoutHandler)
-                .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext());
-
-        return http.build();
+    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
+        AuthenticationManagerBuilder authenticationManagerBuilder =
+                http.getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder.authenticationProvider(authProvider);
+        return authenticationManagerBuilder.build();
     }
+
+    @Bean
+    SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+        return httpSecurity.csrf().disable()
+                // .authorizeHttpRequests().anyRequest().permitAll()
+
+
+                .authorizeHttpRequests()
+                .requestMatchers("/v1/addbook").permitAll()
+                .and()
+
+                .authorizeHttpRequests()
+                .requestMatchers("/v1/carts").permitAll()
+                .and()
+
+                .authorizeHttpRequests()
+                .requestMatchers("/v1/additem/{bookId}").permitAll()
+                .and()
+
+
+                .authorizeHttpRequests()
+                .requestMatchers("/v1/addcart").permitAll()
+                .and()
+
+                .authorizeHttpRequests()
+                .requestMatchers("/v1/updateuser").permitAll()
+                .and()
+
+                .authorizeHttpRequests()
+                .requestMatchers("/v1/*").permitAll()
+                .and()
+
+                .authorizeHttpRequests()
+                .requestMatchers("/admin/*").permitAll()
+                .and()
+
+                //.authorizeHttpRequests().anyRequest().permitAll()
+
+                .authorizeHttpRequests()
+                .requestMatchers("/v1/books").authenticated()
+
+                .and().formLogin()
+
+
+                .and()
+                // .httpBasic(Customizer.withDefaults())//dodanie tego sprawia ze dziala
+                .build();
+
+
+    }
+
+
+
+
+
 }

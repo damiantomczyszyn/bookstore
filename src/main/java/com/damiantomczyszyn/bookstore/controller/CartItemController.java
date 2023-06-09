@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.*;
 public class CartItemController {
     @Autowired
     private CartItemService cartItemService;
-    @Autowired
-    AuthenticationManager authenticationManager;
 
 
 
