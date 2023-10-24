@@ -4,16 +4,10 @@
 
 Models creaded:
 ```
-Book
+Book.java
+Cart.java
+CartItem.java
+Order.java
+User.java
 ```
 
-
-# TO DO:
-
-- [x] Example models
-- [ ] Postman Json API overwiew
-- [ ] Bootstrap 
-- [ ] Full CRUD
-- [ ] Shopping Cart
-- [ ] HATEOAS
-- [ ] Swagger
